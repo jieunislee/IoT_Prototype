@@ -1,0 +1,159 @@
+body {
+    margin: 0;
+    padding: 0;
+    overscroll-behavior: contain;
+    -webkit-tap-highlight-color: transparent;
+}
+
+#sidebar{
+    background-color: #151515;
+    position: absolute;
+    width: 116px;
+    height: 100%;
+}
+
+#application-title{
+    position: absolute;
+    top: 20px;
+
+    padding: 0 0 0 14px;
+    font-size: 20px;
+    vertical-align: middle;
+    line-height: 26px;
+}
+
+#application-subtitle{
+    position: absolute;
+    top: 56px;
+
+    padding: 0 0 0 14px;
+    font-size: 16px;
+    vertical-align: middle;
+    line-height: 18px;
+}
+
+#version{
+    position: absolute;
+
+    color: #BBB;
+    text-align: right;
+    font-size: 13px;
+
+    bottom: 24px;
+    left: 14px;
+
+}
+
+#end-bar{
+    position: absolute;
+    height: 1px;
+    bottom:16px;
+
+    left: 14px;
+    width: 84px;
+
+    border-bottom: 1px solid #BBB;
+}
+
+#container{
+    background-color: #20232A;
+    position: absolute;
+    left: 116px;
+    width: calc(100% + -116px);
+    height: 100%;
+
+    user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+html {
+    overflow: hidden;
+    overflow-x: hidden;
+}
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+#web-output{
+    background-color: #20232A;
+    position: absolute;
+    left:0;
+    width:50%;
+    height:100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#web-input{
+    background-color: #20232A;
+    position: absolute;
+    right:0;
+    width:50%;
+    height:100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#button{
+    background-color: #20232A;
+    position: absolute;
+    top: 35%;
+    height: 12.5%;
+
+    font-size: 18px;
+    line-height: 32px;
+    vertical-align: middle;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#slider{
+    background-color: #20232A;
+    position: absolute;
+    top: 52.5%;
+    height: 12.5%;
+
+    font-size: 18px;
+    line-height: 32px;
+    vertical-align: middle;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#circle{
+    width: 300px;
+    padding-top: 300px;
+    -webkit-border-radius: 300px;
+    -moz-border-radius: 300px;
+    border-radius: 300px;
+    border:15px solid #3e5984;
+
+    background: #3e5984;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

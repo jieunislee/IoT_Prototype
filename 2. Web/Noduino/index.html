@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name=”apple-mobile-web-app-capable” content=”yes”>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>Noduino</title>
+
+    <link rel="stylesheet" href="css\ui.css">
+    <link rel="stylesheet" href="css\contents.css">
+    <link rel="stylesheet" href="css\button.css">
+    <link rel="stylesheet" href="css\asRange.css">
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src="js/jquery-asRange.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i');
+
+        body{
+            margin: 0px;
+            color: white;
+            font-family: 'Nunito', sans-serif !important;
+            overflow: hidden;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="sidebar">
+        <div id="application-title"><b>Noduino</b></div>
+        <div id="application-subtitle">Node.js + Arduino Demo</div>
+        <div id="version"> CIDR Lab </div>
+        <div id="end-bar"></div>
+    </div>
+
+    <div id="container">
+
+        <div id="web-input">
+            <div id="button">
+                <label class="switch">
+                    <input type="checkbox" id="switch1" value="OFF">
+                    <span class="slider round"></span>
+                </label>
+                <div id="button-value">OFF</div>
+            </div>
+
+            <div id="slider">
+                <input id="potentiometer" class="potentiometer-range">
+                <div id="slider-value">Value: 0</div>
+            </div>
+        </div>
+
+        <div id="web-output">
+            <div id="circle">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        console.log("test")
+        var server_socket = io.connect('143.248.250.30');
+
+        var data_to_arduino ={};
+        data_to_arduino.button = "OFF";
+        data_to_arduino.potentiometer = 0;
+        server_socket.emit('message', data_to_arduino);
+        console.log(data_to_arduino);
+
+        server_socket.emit('value', data_to_arduino); //emit
+
+        $(".potentiometer-range").asRange({
+            step: 1,
+            range: false,
+            tip: false,
+            min: 0,
+            max: 1023,
+            value: 0,
+
+            format: function format(value) {
+                return value;
+            }
+        });
+
+        $(".potentiometer-range").on('asRange::change', function (e) {
+            var value = $(".potentiometer-range").asRange('val');
+            $("#slider-value").text("Value: " + value);
+            data_to_arduino.potentiometer = value;
+
+            server_socket.emit('message', data_to_arduino); //emit
+        });
+
+        var check = $("switch1");
+        check.click(function(){
+        	$("p").toggle();
+        });
+
+        $("#switch1").click(function(){
+            if($(this).val() == "OFF"){
+                $(this).val("ON");
+                $("#button-value").text("ON");
+                data_to_arduino.button = "ON";
+
+                server_socket.emit('message', data_to_arduino);
+            }
+            else{
+                $(this).val("OFF");
+                $("#button-value").text("OFF");
+                data_to_arduino.button = "OFF";
+
+                server_socket.emit('message', data_to_arduino);
+            }
+        })
+
+
+        var data_from_arduino;
+
+        server_socket.on('message', function(data){
+            data_from_arduino = JSON.parse(data);
+
+            if(data_from_arduino.button){
+                $("#circle").css("background","#EEE");
+            }
+            else{
+                $("#circle").css("background","#3e5984");
+            }
+
+            $("#circle").css("width", (data_from_arduino.potentiometer/1024)*300);
+            $("#circle").css("padding-top", (data_from_arduino.potentiometer/1024)*300);
+            $("#circle").css("border-radius", (data_from_arduino.potentiometer/1024)*300);
+
+        });
+
+
+
+
+
+    </script>
+</body>
+</html>
